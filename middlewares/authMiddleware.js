@@ -31,4 +31,18 @@ const protect = async (req, res, next) => {
     }
 };
 
-module.exports = { protect };
+// The "VIP Manager" to check if the user has the right role
+const authorize = (...roles) => {
+    return (req, res, next) => {
+        // req.user is set by the "protect" bouncer before it gets here
+        if (!roles.includes(req.user.role)) {
+            return res.status(403).json({ 
+                message: `Error: User role '${req.user.role}' is not authorized to access this route.` 
+            });
+        }
+        // If they have the right role, open the door!
+        next();
+    };
+};
+
+module.exports = { protect, authorize };

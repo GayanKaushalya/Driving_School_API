@@ -1,12 +1,17 @@
 const express = require('express');
 const router = express.Router();
 
-// Import the controller and the middleware (the bouncer)
+// 1. Import the controller
 const { getProfile } = require('../controllers/userController');
-const { protect } = require('../middlewares/authMiddleware');
 
-// Notice we put "protect" in the middle! 
-// When someone visits /profile, it runs "protect" first, and if successful, runs "getProfile"
+// 2. Import BOTH middlewares on a SINGLE line (This fixes your error!)
+const { protect, authorize } = require('../middlewares/authMiddleware');
+
+// 3. Routes
 router.get('/profile', protect, getProfile);
+
+router.get('/admin-only', protect, authorize('Admin'), (req, res) => {
+    res.status(200).json({ message: "Welcome to the Admin Dashboard!" });
+});
 
 module.exports = router;

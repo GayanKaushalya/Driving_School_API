@@ -13,6 +13,8 @@ app.use(express.json());
 // Connect our auth routes
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
+app.use('/api/bookings', require('./routes/bookingRoutes'));
+app.use('/api/payments', require('./routes/paymentRoutes'));
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
