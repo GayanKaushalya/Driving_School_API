@@ -19,13 +19,19 @@ const bookingSchema = new mongoose.Schema({
     },
     timeSlot: { 
         type: String, 
-        required: true // Example: "10:00 AM - 11:00 AM"
+        required: true // Example: "10:00 AM - 10:20 AM"
     },
     status: { 
         type: String, 
-        enum: ['Pending', 'Confirmed', 'Cancelled'], 
+        enum:['Pending', 'Confirmed', 'Cancelled'], 
         default: 'Pending' 
+    },
+    // NEW ADDITION: A checkbox to track if the reminder email was sent
+    reminderSent: {
+        type: Boolean,
+        default: false // By default, the reminder has NOT been sent yet
     }
+    
 }, { timestamps: true });
 
 module.exports = mongoose.model('Booking', bookingSchema);
